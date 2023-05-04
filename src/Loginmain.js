@@ -33,7 +33,7 @@ const Loginmain = ({history}) => {
   
 
 
-    const [userid, setUserId] = useState();
+    const [userid, setUserId] = useState('');
 
     const [admin, setAdmin] = useState(false);
 
@@ -201,12 +201,13 @@ const onChangeimg =(e)=>{
        
         }
         else{
-          setMessage('please upload jpeg,png,jpeg file')
-          setImgfile(file)
+          document.querySelector('#imagemessage').innerHTML= '.jpg, .jpeg, .png files accepted'
         
           setTimeout(()=>{
-            setMessage('')
-          },[2000])
+          document.querySelector('#imagemessage').innerHTML= ''
+
+            
+          },[3000])
           return
     
         }
@@ -336,13 +337,17 @@ const sendImage =(val, merid, len)=>{
 
 }
 
+
+
+
+
     
   const onChangefbx = (e) => {
    
     
-   
+  
 
-    let val= document.getElementById('b1').value;
+   
   
    
     
@@ -355,27 +360,51 @@ const sendImage =(val, merid, len)=>{
     fileToBase64(file, (err, result) => {
       if (result) {
 
+        
+
+      
+
         let newval= file.name
         let indx = newval.lastIndexOf(".") + 1;
         let filetype = newval.substr(indx, newval.length).toLowerCase();
-             
-    if( filetype === 'rar' || filetype === 'zip'){
+       
+        if(  filetype === 'zip'){
+          document.querySelector('#fbxmessage').innerHTML= ''
+  
+      
+       
+        }
+      else{
+        document.querySelector('#fbxmessage').innerHTML= 'upload a zip '
+      setTimeout(() => {
+        document.querySelector('#fbxmessage').innerHTML= ''
 
-      setFile(result)
-      setFileName(file)
-   
-    }
-    else{
-      setMessage('please upload a zip file')
-      setFile(null)
-      setFileName(null)
-      setTimeout(()=>{
-        setMessage('')
-      },[2000])
-      return
+        
+      }, [3000]);
+        return
+        }
+  
+        if( newval.split('.')[0].includes('fbx')){
 
-    }
-     
+            setFileName(file)
+
+        
+          document.querySelector('#fbxmessage').innerHTML= ''
+  
+  
+        }
+        else{
+        document.querySelector('#fbxmessage').innerHTML= 'upload a fbx zip file'
+        setTimeout(() => {
+
+        document.querySelector('#fbxmessage').innerHTML= ''
+
+          
+        }, [3000]);
+             return
+  
+        }
+      
        
       
       
@@ -439,6 +468,8 @@ const sendImage =(val, merid, len)=>{
 
 
 
+
+
  
   
 const onChangeglb = e => {
@@ -459,19 +490,20 @@ const onChangeglb = e => {
       let indx = newval.lastIndexOf(".") + 1;
       let filetype = newval.substr(indx, newval.length).toLowerCase();
 
-      if( filetype === 'rar' || filetype === 'zip'){
+      if( filetype === 'glb' ){
 
         setFileNewglb(result)
         setFileGlv(file)
      
       }
       else{
-        setMessage('please upload a zip or rar file')
-        setFileNewglb(null)
-        setFileGlv(null)
-        setTimeout(()=>{
-          setMessage('')
-        },[2000])
+       document.querySelector('#glbmessage').innerHTML= 'upload a glb file'
+       setTimeout(() => {
+
+       document.querySelector('#glbmessage').innerHTML= ''
+
+        
+       }, [3000]);
         return
   
       }
@@ -550,19 +582,21 @@ const onChangegltf = e => {
     let filetype = newval.substr(indx, newval.length).toLowerCase();
     if (result) {
       
-      if( filetype === 'rar' || filetype === 'zip'){
+      if( filetype === 'usdz'){
 
         setFileNewGltf(result)
         setFileGltf(file)
      
       }
       else{
-        setMessage('please upload a zip file')
-        setFileNewGltf(null)
-        setFileGltf(null)
-        setTimeout(()=>{
-          setMessage('')
-        },[2000])
+       document.querySelector('#usdzmessage').innerHTML= 'upload a usdz file'
+       setTimeout(() => {
+       document.querySelector('#usdzmessage').innerHTML= ''
+
+        
+       }, [3000]);
+
+      
         return
   
       }
@@ -631,6 +665,7 @@ const onChangegltf = e => {
         e.preventDefault();
             getproduct()
 
+
         async function getproduct(){
 
            const requestBody={
@@ -673,6 +708,10 @@ const onChangegltf = e => {
 
           document.querySelector('.merquality').style.display= 'block'
           document.querySelector('.allmerchantquality').style.display = 'none'
+
+        
+
+
          
           
           
@@ -1750,7 +1789,9 @@ const setuserdetails=(mid,pid)=>{
 
             </div>
 
+      <div className='merchantmaincontainer' >
 
+       
         
       {
 
@@ -1760,22 +1801,14 @@ const setuserdetails=(mid,pid)=>{
 
 allmerchantdata && allmerchantdata.map((item,i)=>(
 
-  <div  style={{border:'1px solid green', display:'flex', width:'', margin:'10px', flexDirection:'row'}}>
+  <div className='merchantmaindiv'>
 
 
-    <div style={{flex:'1', border:'1px solid green', alignItems:'center', justifyContent: 'center', width:'90px', margin:'10px'}} >
-      <p>Merchant Id</p>
-      <p style={{borderBottom:'1px solid gray', paddingBottom:'10px'}} >{item.merchant_Id}</p>
-      
-  
-
-      </div>
+ 
     
-    <div style={{flex:'4', border:''}} >
+   
 
-      <div style={{display:'flex', marginBottom:'10px', border:'', flexDirection:'row'}} >
-
-      <div style={{flex:'1', paddingLeft:'', border:'1px solid blue',alignItems:'flex-start', justifyContent:'flex-start', margin:'10px'}} >
+      
 
        
 
@@ -1791,16 +1824,15 @@ allmerchantdata && allmerchantdata.map((item,i)=>(
       
           
       
-        <div style={{border:'1px solid green', margin:'10px', display:'flex', flexDirection:'row-reverse', flexWrap:'wrap'}} >
-
+        <div style={{ margin:'10px', display:'flex', flexDirection:'row-reverse', flexWrap:'wrap', width:'auto'}} >
 
 
 
  
 
    {
-    <div style={{border:'1px solid red', flex:'1'}} >
-      <p>Created date</p>
+    <div style={{display:'flex', flexDirection:'column'}}  className='merchantbodydiv'  >
+      <p className='merchanthead'>Created date</p>
     {
   productsget && productsget.map(item=>(
   <div style={{border:''}} >
@@ -1808,7 +1840,7 @@ allmerchantdata && allmerchantdata.map((item,i)=>(
     {
 
       item.product_Id === itemnew ?
-      <p>{item.registration_Time.split(' ').slice(0,4).join(' ')}</p>: <p></p>
+      <p className='merchantcell'>{item.registration_Time.split(' ').slice(0,4).join(' ')}</p>: <p></p>
     }
     
   </div>
@@ -1821,9 +1853,11 @@ allmerchantdata && allmerchantdata.map((item,i)=>(
 
  }
 
-{
-    <div style={{border:'1px solid red', flex:'1'}} >
-      <p>height (inch)</p>
+ <div className='dimensioncontainer' >
+
+ {
+    <div style={{ flex:'1'}} >
+      <p className='merchanthead'>height (inch)</p>
     {
  productsget && productsget.map(item=>(
   <div style={{border:''}} >
@@ -1831,7 +1865,7 @@ allmerchantdata && allmerchantdata.map((item,i)=>(
     {
 
       item.product_Id === itemnew ?
-      <p>{item.height}</p>: <p></p>
+      <p className='merchantcell'>{item.height}</p>: <p></p>
     }
     
   </div>
@@ -1846,8 +1880,8 @@ allmerchantdata && allmerchantdata.map((item,i)=>(
 
 
 {
-    <div style={{border:'1px solid red', flex:'1'}} >
-      <p>breadth (inch)</p>
+    <div style={{ flex:'1'}} >
+      <p className='merchanthead'>breadth (inch)</p>
     {
   productsget && productsget.map(item=>(
   <div style={{border:''}} >
@@ -1855,7 +1889,7 @@ allmerchantdata && allmerchantdata.map((item,i)=>(
     {
 
       item.product_Id === itemnew ?
-      <p>{item.breadthprod}</p>: <p></p>
+      <p className='merchantcell'>{item.breadthprod}</p>: <p></p>
     }
     
   </div>
@@ -1870,8 +1904,8 @@ allmerchantdata && allmerchantdata.map((item,i)=>(
 
 
 {
-  <div style={{border:'1px solid red', flex:'1'}} >
-    <p>length (inch)</p>
+  <div style={{ flex:'1'}} >
+    <p  className='merchanthead'>length (inch)</p>
       {
    productsget && productsget.map(item=>(
     <div style={{border:''}} >
@@ -1879,7 +1913,7 @@ allmerchantdata && allmerchantdata.map((item,i)=>(
       {
 
         item.product_Id === itemnew ?
-        <p>{item.lengthprod}</p>: <p></p>
+        <p className='merchantcell'>{item.lengthprod}</p>: <p></p>
       }
       
     </div>
@@ -1891,20 +1925,30 @@ allmerchantdata && allmerchantdata.map((item,i)=>(
   </div>
  }
 
+
+  </div>
+
+
+
 {
-  <div style={{border:'1px solid red', flex:'1'}} >
-    <p>Image url</p>
+  <div className='merchantbodydiv'  style={{marginRight:'20px'}} >
+    <p className='merchanthead'> Image url</p>
 
   {
    productsget && productsget.map(item=>(
-    <div style={{border:''}} >
-        {
+   
+        
           item.product_Id === itemnew ? 
-          <p  >{ item.imageurl && item.imageurl.map(it=>(
-            <p  style={{fontSize:'10px'}}><a href={it}>{it}</a></p>
-          ))}</p>: <p></p>
-        }
-    </div>
+          item.imageurl && item.imageurl.map((it,l)=>(
+
+            <div  style={{marginBottom:'20px'}}  >
+               <button ><a href={it}>Image {l+1}</a></button>
+
+            </div>
+           
+          )): <div></div>
+        
+   
    ))
   }
 
@@ -1923,17 +1967,20 @@ allmerchantdata && allmerchantdata.map((item,i)=>(
 
 
 
-<div  style={{border:'1px solid red', flex:'1', alignItems:'center', justifyContent:'center'}}> 
+<div  className='merchantbodydiv' style={{ display:'flex', alignItems:'center', justifyContent:'center', flexDirection:'column', marginRight:'20px'}}> 
 
+     <p className='merchanthead'>Merchant Id</p>
+
+      <p  className='merchantcell' style={{borderBottom:'1px solid gray', paddingBottom:'10px'}} >{item.merchant_Id}</p>
 
 
         
     
-    <p>Product Id</p>
+    <p className='merchanthead'>Product Id</p>
   
-      <p style={{borderBottom:'1px solid gray', paddingBottom:'10px'}} >{itemnew}</p>
+      <p className='merchantcell' style={{borderBottom:'1px solid gray', paddingBottom:'10px'}} >{itemnew}</p>
 
-      <p>Assign modeler</p>
+      <p className='merchanthead'>Assign modeler</p>
       <div style={{borderBottom:'1px solid gray', paddingBottom:'10px'}} > 
               
 
@@ -1960,7 +2007,7 @@ allmerchantdata && allmerchantdata.map((item,i)=>(
                 
                 
                 <div style={{borderBottom:'1px solid gray', paddingBottom:'10px'}} >
-                  <p>Image quality</p>
+                  <p  className='merchanthead' >Image quality</p>
 
 <select onChange={event=>setImageStatus(event.target.value)} >
 <option></option>
@@ -1976,7 +2023,7 @@ allmerchantdata && allmerchantdata.map((item,i)=>(
   <div>{
     allimagestatus && allimagestatus.map(item =>(
       item.product_Id === itemnew ?
-      <p>{item.imagestatus}</p> : <p></p>
+      <p className='merchantcell'>{item.imagestatus}</p> : <p></p>
       
     ))
     
@@ -1988,12 +2035,12 @@ allmerchantdata && allmerchantdata.map((item,i)=>(
     {
                   <div>
 
-                    <p>Modeler name</p>
+                    <p className='merchanthead'>Modeler name</p>
 
                     {
                        modelalldata && modelalldata.map(item=>(
                         item.product_Id === itemnew ?
-                        <p id="modname" >{item.modelername ? item.modelername : assignvalue  }  </p> :
+                        <p id="modname" className='merchantcell' >{item.modelername ? item.modelername : assignvalue  }  </p> :
                         
                         <p></p>
 
@@ -2026,15 +2073,15 @@ allmerchantdata && allmerchantdata.map((item,i)=>(
      
 
 
-      </div>
+   
    
    
 
     
         
-          </div>
+        
     
-    </div>
+   
 
 
    
@@ -2062,7 +2109,7 @@ allmerchantdata && allmerchantdata.map((item,i)=>(
     }
 
   
-
+  </div>
   
 
 
@@ -2134,7 +2181,7 @@ allmerchantdata && allmerchantdata.map((item,i)=>(
                    {
                     singlemerchant && singlemerchant.map(item=>(
                       item.map(it=>(
-                        <div style={{border:'1px solid red',margin:'10px', height:'150px', overflow:'scroll'}} >
+                        <div style={{margin:'10px', height:'150px', overflow:'scroll'}} >
                           {it.imageurl && it.imageurl.map(itemnew=>(
                             <p><a  style={{fontSize:'10px'}} href={itemnew}>{itemnew}</a></p>
                           ))}
@@ -2399,11 +2446,11 @@ allmerchantdata && allmerchantdata.map((item,i)=>(
             <div>
                
               
-              <div  style={{display:'flex', flexDirection:'row', flexWrap:'wrap', border:'1px solid green', margin:'10px'}}>
-                <div style={{flex:'1',border:'1px solid red'}}>
-                  <p> Merchant Id</p>
+              <div  style={{display:'flex', flexDirection:'row', flexWrap:'wrap', margin:'10px'}}>
+                <div style={{flex:'1', marginRight:'20px'}} className='merchantbodydiv' >
+                  <p className='merchanthead' > Merchant Id</p>
 
-                  <p> {item.merchant_Id}</p>
+                  <p className='merchantcell'> {item.merchant_Id}</p>
                   
                 </div>
                
@@ -2412,26 +2459,26 @@ allmerchantdata && allmerchantdata.map((item,i)=>(
                 
              
 
-              <div  style={{flex:'1',border:'1px solid red', padding:'10px'}}>
+              <div  style={{flex:'1', paddingRight:'20px', marginRight:'20px'}}  className='merchantbodydiv'>
                 
                   <div style={{flex:'1'}}>
-                  <p>Product Id</p>
+                  <p className='merchanthead'>Product Id</p>
                     <div  style={{display:'flex', alignContent:'center', justifyContent:'center', borderBottom:'1px solid green', paddingBottom:'15px'}}>
                       
-                    <p>{item.product_Id}</p>
+                    <p className='merchantcell'> {item.product_Id}</p>
                   
 
 
                     </div>
 
                     <div style={{borderBottom:'1px solid green', paddingBottom:'15px'}}>
-                    <p >Status</p>
+                    <p  className='merchanthead' >Status</p>
 
                       {
 
                         modelalldata && modelalldata.map(itemnew=>(
                            itemnew.product_Id === item.product_Id ?
-                           <p>{itemnew.statusmod ? itemnew.statusmod : 'pending'}</p>:<p></p>
+                           <p className='merchantcell'>{itemnew.statusmod ? itemnew.statusmod : 'pending'}</p>:<p></p>
 
 
                         
@@ -2441,12 +2488,12 @@ allmerchantdata && allmerchantdata.map((item,i)=>(
                             }
                     </div>
                     <div style={{borderBottom:'1px solid green', paddingBottom:'15px'}} >
-                      <p>verified date</p>
+                      <p  className='merchanthead'>verified date</p>
                       {
 
 modelalldata && modelalldata.map(itemnew=>(
    itemnew.product_Id === item.product_Id ?
-   <p>{itemnew.verifydate.split(' ').slice(0,4).join(' ')}</p>:<p></p>
+   <p className='merchantcell'>{itemnew.verifydate.split(' ').slice(0,4).join(' ')}</p>:<p></p>
 
 
 
@@ -2463,26 +2510,29 @@ modelalldata && modelalldata.map(itemnew=>(
                  
                 
               </div>
-              <div  style={{flex:'1',border:'1px solid red'}}>
-                <p>Length (inch)</p>
+
+              <div className='dimensioncontainer'  >
+
+              <div >
+                <p className='merchanthead'>Length (inch)</p>
 
                 {
                   allproducts && allproducts.map(itemnew=>(
                      item.product_Id === itemnew.product_Id
                      ? 
-                     <p>{itemnew.lengthprod}</p> : <p></p>
+                     <p className='merchantcell'>{itemnew.lengthprod}</p> : <p></p>
 
                   ))
                 }
               </div>
 
-              <div  style={{flex:'1',border:'1px solid red'}}>
-                <p>Breadth (inch)</p>
+              <div  >
+                <p className='merchanthead'>Breadth (inch)</p>
               {
                   allproducts && allproducts.map(itemnew=>(
                      item.product_Id === itemnew.product_Id
                      ? 
-                     <p>{itemnew.breadthprod}</p> : <p></p>
+                     <p className='merchantcell'>{itemnew.breadthprod}</p> : <p></p>
 
                   ))
                 }
@@ -2490,45 +2540,93 @@ modelalldata && modelalldata.map(itemnew=>(
                   
 
               </div>
-              <div  style={{flex:'1', border:'1px solid red'}}>
+              <div  >
 
-                <p>Height (inch)</p>
+                <p className='merchanthead'>Height (inch)</p>
               {
                   allproducts && allproducts.map(itemnew=>(
                      item.product_Id === itemnew.product_Id
                      ? 
-                     <p>{itemnew.height}</p> : <p></p>
+                     <p className='merchantcell'>{itemnew.height}</p> : <p></p>
 
                   ))
                 }
               </div>
 
-              <div style={{flex:'1', flexWrap:'wrap', border:'1px solid red'}}>
-                <p>Image url</p>
-              {
-    allproducts && allproducts.map(itemnew=>(
-    <div style={{border:''}} >
+
+
+
+              </div>
+            
+            
+
+                  <div className='imageurlcontainer' >
+
+                  <p className='merchanthead'>Image url</p>
+
+                 { allproducts && allproducts.map((itemnew )=> (
+                   item.product_Id === itemnew.product_Id ?
+                   
+
+                    itemnew.imageurl.map((it,k)=>(
+
+                      <div>
+                   
+
+                    
+                      <button><a href={it}> Image {k+1}  </a></button>
+                      
+                      </div>
+
+                    )): <div></div>
+
+                  
+ 
+
+                    
+                 
+
+                 )) 
+                 
+              
+                 }
+
+
+                   </div>
+            
+
+          {
+            /*
+
+                         {
+    allproducts && allproducts.map((itemnew,k)=>(
+    <div  className='imageurlbuttondiv' >
         {
           item.product_Id === itemnew.product_Id ? 
-          <p  >{itemnew.imageurl.map(it=>(
-            <p  style={{fontSize:'10px'}}><a href={it}>{it}</a></p>
-          ))}</p>: <p></p>
+          <div  style={{border:'1px solid blue'}} >{itemnew.imageurl.map(it=>(
+            <button><a href={it}> Image {k+1}  </a>  </button>
+          ))}</div>: <div></div>
         }
     </div>
    ))
   }
 
 
+            */
+          }      
+ 
 
-              </div>
 
-              <div style={{border:'1px solid red'}}>
-                <p>Assigned On</p>
+
+            
+
+              <div className='merchantbodydiv'  style={{marginRight:'20px'}}>
+                <p className='merchanthead'>Assigned On</p>
               {
                  modelalldata  && modelalldata.map(itemnew=>(
                      item.product_Id === itemnew.product_Id
                      ? 
-                     <p>{itemnew.modelassigndate.split(' ').slice(0,4).join(' ')}</p> : <p></p>
+                     <p className='merchantcell'>{itemnew.modelassigndate.split(' ').slice(0,4).join(' ')}</p> : <p></p>
 
                   ))
                 }
@@ -2538,12 +2636,16 @@ modelalldata && modelalldata.map(itemnew=>(
               </div>
 
               
-              <div  style={{flex:'1', border:'1px solid red'}}>
+              <div  style={{flex:'1', marginRight:"20px"}}  className='merchantbodydiv'>
                 <div  style={{display:'flex', alignItems:'center', justifyContent:'center', flexDirection:'column'}}>
-                <p>fbx</p>
-                <input type='file' id='b1' onChange={onChangefbx}  style={{marginBottom:'10px', paddingLeft:'30px'}} />
+                <p className='merchanthead'>fbx zip file</p>
+                <input type='file' id='b1'  onChange={onChangefbx}  style={{marginBottom:'10px', paddingLeft:'30px'}} />
                 <button  value={item.product_Id}  onClick={()=>sendfunctionfbx(item.product_Id, item.merchant_Id, i)}>upload model</button>
-                <p>{message &&  <p> {message} </p> }</p>
+                <p id='fbxmessage' style={{color:'red'}} ></p>
+
+                <p style={{color:'green', fontFamily:'Manrope, sanserif'}}  >{filename && filename.name}</p>
+
+              
 
                 {  <span id={`${item.product_Id}_fbx_${i}`}  className='tickmarkfbx' ><FaCheck/></span>  }
 
@@ -2555,13 +2657,16 @@ modelalldata && modelalldata.map(itemnew=>(
 
 
               </div>
-              <div  style={{flex:'1',border:'1px solid red'}}>
+              <div  style={{flex:'1',marginRight:"20px"}}  className='merchantbodydiv'>
 
                 <div style={{display:'flex', alignItems:'center', justifyContent:'center', flexDirection:'column'}} >
-                <p>glb</p>
+                <p className='merchanthead'>glb file</p>
                 <input type='file' id='b2' onChange={onChangeglb} style={{marginBottom:'10px', paddingLeft:'30px'}}  /> 
                 <button  value={item.product_Id} onClick={()=>sendfunctionglb(item.product_Id, item.merchant_Id, i)} >upload model</button>
-                <p>{message &&  <p> {message} </p> }</p>
+                <p id= 'glbmessage' style={{color:'red'}} ></p>
+
+                <p style={{color:'green', fontFamily:'Manrope, sanserif'}} >{fileglb && fileglb.name}</p>
+
                 {  <span id={`${item.product_Id}_glb_${i}`}  className='tickmarkfbx' ><FaCheck/></span>  }
 
 
@@ -2573,13 +2678,16 @@ modelalldata && modelalldata.map(itemnew=>(
 
 
                     </div>
-                  <div  style={{flex:'1',border:'1px solid red'}}>
+                  <div  style={{flex:'1',marginRight:"20px"}}  className='merchantbodydiv'>
 
                    <div style={{display:'flex', alignItems:'center', justifyContent:'center', flexDirection:'column'}} >
-                   <p>gltf</p>
+                   <p className='merchanthead'>usdz file</p>
                 <input type='file' id='b3' onChange={onChangegltf} style={{marginBottom:'10px', paddingLeft:'30px'}}  /> 
                 <button  value={item.product_Id} onClick={()=>sendfunctiongltf(item.product_Id, item.merchant_Id, i)} >upload model</button>
-                <p>{message &&  <p> {message} </p> }</p>
+                <p id= 'usdzmessage' style={{color:'red'}} ></p>
+
+                <p style={{color:'green', fontFamily:'Manrope, sanserif'}} >{filegltf && filegltf.name}</p>
+
                 {  <span id={`${item.product_Id}_gltf_${i}`}  className='tickmarkfbx' ><FaCheck/></span>  }
 
 
@@ -2592,10 +2700,10 @@ modelalldata && modelalldata.map(itemnew=>(
 
 
                   </div>
-                  <div  style={{flex:'1', border:'1px solid red'}}>
+                  <div  style={{flex:'1',marginRight:"20px"}}  className='merchantbodydiv'>
 
 
-                <p>image upload</p>
+                <p className='merchanthead'>image upload</p>
 
                  <input type='file' id='imgfile' onChange={onChangeimg}/>
 
@@ -2606,6 +2714,10 @@ modelalldata && modelalldata.map(itemnew=>(
 
 
                  </p> 
+
+                 <p id='imagemessage' style={{color:'red'}} ></p>
+                 <p style={{color:'green', fontFamily:'Manrope, sanserif'}} >{imgfile && imgfile.name}</p>
+
                  {  <span id={`${item.product_Id}_img_${i}`}  className='tickmarkfbx' ><FaCheck/></span>  }
 
 
@@ -2716,7 +2828,7 @@ imgresnew && imgresnew.map(item=>(
 
 
   
-<div style={{border:'1px solid blue',height:'120px', marginBottom:'40px', margin:'10px', overflowY:'scroll'}}>
+<div style={{height:'120px', marginBottom:'40px', margin:'10px', overflowY:'scroll'}}>
  
 
   
@@ -2987,25 +3099,16 @@ allmerchantdata && allmerchantdata.map((item,i)=>(
 
 
 
-<div  style={{border:'1px solid green', display:'flex', width:'', margin:'10px', flexDirection:'row'}}>
-
-
-<div style={{flex:'1', border:'1px solid green', alignItems:'center', justifyContent: 'center', width:'90px', margin:'10px'}} >
-<p>Merchant Id</p>
-<p style={{borderBottom:'1px solid gray', paddingBottom:'10px'}} >{item.merchant_Id}</p>
+<div  style={{ display:'flex', margin:'10px', flexDirection:'row' }}>
 
 
 
-          
 
-        
-</div>
+<div style={{display:'flex', width:'100%',border:'2px solid gray', borderRadius:'10px', alignItems:'center', justifyContent:'center', backgroundColor:'rgb(236, 236, 236)'}} >
 
-<div style={{flex:'6', border:''}} >
+<div style={{display:'flex', marginBottom:'10px', flexDirection:'row',  width:'auto'}} >
 
-<div style={{display:'flex', marginBottom:'10px', border:'', flexDirection:'row'}} >
-
-<div style={{flex:'1', paddingLeft:'', border:'1px solid blue',alignItems:'flex-start', justifyContent:'flex-start', margin:'10px'}} >
+<div style={{display:'flex', width:'auto', paddingLeft:'',alignItems:'flex-start', justifyContent:'flex-start', margin:'10px'}} >
 
  
 
@@ -3021,68 +3124,74 @@ removerepeat(item.product_Id).map(itemnew=>(
 
     
 
-  <div style={{border:'1px solid green', margin:'10px', display:'flex', flexDirection:'row-reverse', flexWrap:'wrap'}} >
+  <div style={{ margin:'10px', display:'flex', flexDirection:'row-reverse', flexWrap:'wrap', paddingLeft: ''}} >
 
+
+<div style={{display:'flex', flexDirection:'column', width:'200px'}} className='merchantbodydiv'  >
 
 {
 
-  <div style={{border:'1px solid red', flex:'1'}}>
-  <p>fbx</p>
-  {
-    modeluploaddata && modeluploaddata.map(item=>(
-     
-      item.product_Id === itemnew ? 
-      <p style={{fontSize:'6px'}} ><a href={item.fbx}>{item.fbx}</a></p> :<p></p>
-     
+<div style={{ flex:'1'}}>
+<p className='merchanthead' >fbx url</p>
+{
+  modeluploaddata && modeluploaddata.map((item, u)=>(
+   
+    item.product_Id === itemnew ? 
+    <button  ><a href={item.fbx}>Url for fbx</a></button> :<p></p>
+   
 
-    ))
-  }
+  ))
+}
+
+</div>
+}
+{
+
+<div style={{ flex:'1'}}>
+<p className='merchanthead'>glb url</p>
+
+{
+  modeluploaddata && modeluploaddata.map(item=>(
+   
+    item.product_Id === itemnew ? 
+    <button ><a href={item.glb}>url for glb</a></button> :<p></p>
+   
+
+  ))
+}
+
+</div>
+}
+{
+
+<div style={{ flex:'1'}}>
+<p className='merchanthead'>usdz url</p>
+{
+  modeluploaddata && modeluploaddata.map(item=>(
+   
+    item.product_Id === itemnew ? 
+    <button ><a href={item.gltf}>url usdz</a></button> :<p></p>
+   
+
+  ))
+}
+
+</div>
+}
+
 
   </div>
-}
+
+
+<div  style={{display:'flex', flexDirection: 'column', width:'200px', marginRight:'20px'}} className='merchantbodydiv'>
 {
-
-<div style={{border:'1px solid red', flex:'1'}}>
-<p>glb</p>
-
-{
-    modeluploaddata && modeluploaddata.map(item=>(
-     
-      item.product_Id === itemnew ? 
-      <p style={{fontSize:'6px'}} ><a href={item.glb}>{item.glb}</a></p> :<p></p>
-     
-
-    ))
-  }
-
-</div>
-}
-{
-
-<div style={{border:'1px solid red', flex:'1'}}>
-<p>gltf</p>
-{
-    modeluploaddata && modeluploaddata.map(item=>(
-     
-      item.product_Id === itemnew ? 
-      <p style={{fontSize:'6px'}} ><a href={item.gltf}>{item.gltf}</a></p> :<p></p>
-     
-
-    ))
-  }
-
-</div>
-}
-
-{
-
-<div style={{border:'1px solid red', flex:'1'}}>
-<p>Upload date (M) </p>
+<div style={{ flex:'1'}}>
+<p className='merchanthead'>Upload date (M) </p>
 {
     modeluploaddata &&  modeluploaddata.map(item=>(
      
       item.product_Id === itemnew ? 
-      <p  >{item.modeluploaddate.split(' ').slice(0,4).join(' ')}</p> :<p></p>
+      <p className='merchantcell' >{item.modeluploaddate.split(' ').slice(0,4).join(' ')}</p> :<p></p>
      
 
     ))
@@ -3093,14 +3202,14 @@ removerepeat(item.product_Id).map(itemnew=>(
 
 }
 {
-<div style={{border:'1px solid red', flex:'1'}} >
-<p>Assigned date</p>
+<div style={{ flex:'1'}} >
+<p className='merchanthead'>Assigned date</p>
 {
 
     modeluploaddata &&  modeluploaddata.map(item=>(
      
       item.product_Id === itemnew ? 
-      <p  >{item.modelassigndate.split(' ').slice(0,4).join(' ')}</p> :<p></p>
+      <p className='merchantcell' >{item.modelassigndate.split(' ').slice(0,4).join(' ')}</p> :<p></p>
      
 
     ))
@@ -3116,8 +3225,8 @@ removerepeat(item.product_Id).map(itemnew=>(
 
 
 {
-<div style={{border:'1px solid red', flex:'1'}} >
-<p>Upload date (P)</p>
+<div style={{ flex:'1'}} >
+<p className='merchanthead'>Upload date (P)</p>
 {
   productsget && productsget.map(item=>(
 <div style={{border:''}} >
@@ -3125,7 +3234,7 @@ removerepeat(item.product_Id).map(itemnew=>(
 {
 
 item.product_Id === itemnew ?
-<p>{item.registration_Time.split(' ').slice(0,4).join(' ')}</p>: <p></p>
+<p className='merchantcell'>{item.registration_Time.split(' ').slice(0,4).join(' ')}</p>: <p></p>
 }
 
 </div>
@@ -3138,9 +3247,19 @@ item.product_Id === itemnew ?
 
 }
 
+
+
+  </div>
+
+
+
+
+<div style={{display:'flex', flexDirection:'column', width:'200px', marginRight:'20px'}}  className='merchantbodydiv' >
+
+  
 {
-<div style={{border:'1px solid red', flex:'1'}} >
-<p>height (inch)</p>
+<div style={{ flex:'1'}} >
+<p className='merchanthead'>height (inch)</p>
 {
 productsget && productsget.map(item=>(
 <div style={{border:''}} >
@@ -3148,7 +3267,7 @@ productsget && productsget.map(item=>(
 {
 
 item.product_Id === itemnew ?
-<p>{item.height}</p>: <p></p>
+<p className='merchantcell'> {item.height}</p>: <p></p>
 }
 
 </div>
@@ -3163,8 +3282,8 @@ item.product_Id === itemnew ?
 
 
 {
-<div style={{border:'1px solid red', flex:'1'}} >
-<p>breadth (inch)</p>
+<div style={{ flex:'1'}} >
+<p className='merchanthead'>breadth (inch)</p>
 {
 productsget && productsget.map(item=>(
 <div style={{border:''}} >
@@ -3172,7 +3291,7 @@ productsget && productsget.map(item=>(
 {
 
 item.product_Id === itemnew ?
-<p>{item.breadthprod}</p>: <p></p>
+<p className='merchantcell'>{item.breadthprod}</p>: <p></p>
 }
 
 </div>
@@ -3187,8 +3306,8 @@ item.product_Id === itemnew ?
 
 
 {
-<div style={{border:'1px solid red', flex:'1'}} >
-<p>length (inch)</p>
+<div style={{ flex:'1'}} >
+<p className='merchanthead'>length (inch)</p>
 {
 productsget && productsget.map(item=>(
 <div style={{border:''}} >
@@ -3196,7 +3315,7 @@ productsget && productsget.map(item=>(
 {
 
   item.product_Id === itemnew ?
-  <p>{item.lengthprod}</p>: <p></p>
+  <p className='merchantcell'>{item.lengthprod}</p>: <p></p>
 }
 
 </div>
@@ -3208,20 +3327,33 @@ productsget && productsget.map(item=>(
 </div>
 }
 
+
+
+
+  </div>
+
+
+
 {
-<div style={{border:'1px solid red', flex:'1'}} >
-<p>Image url</p>
+<div  style={{width:'200px', marginRight:'20px'}}  className='merchantbodydiv'>
+<p className='merchanthead'>Image url</p>
 
 {
 productsget && productsget.map(item=>(
-<div style={{border:''}} >
-  {
+
+  
     item.product_Id === itemnew ? 
-    <p  >{item.imageurl && item.imageurl.map(it=>(
-      <p  style={{fontSize:'10px'}}><a href={it}>{it}</a></p>
-    ))}</p>: <p></p>
-  }
-</div>
+    item.imageurl && item.imageurl.map((it,p)=>(
+
+      <div style={{height:'60px'}} >
+      <button ><a href={it}>Image {p+1} </a></button>
+
+      </div>
+   
+     
+    ))    : <div></div>
+  
+
 ))
 }
 
@@ -3240,36 +3372,38 @@ productsget && productsget.map(item=>(
 
 
 
-<div  style={{border:'1px solid red', flex:'1', alignItems:'center', justifyContent:'center'}}> 
+<div  className='merchantbodydiv' style={{ display:'flex', alignItems:'center', justifyContent:'center', flexDirection:'column', width:'200px', marginRight:'20px'}}> 
 
+<p className='merchanthead'>Merchant Id</p>
 
+<p style={{borderBottom:'1px solid gray', paddingBottom:'10px'}}  className='merchantcell'>{item.merchant_Id}</p>
 
   
 
-<p>Product Id</p>
+<p className='merchanthead'>Product Id</p>
 
-<p style={{borderBottom:'1px solid gray', paddingBottom:'10px'}} >{itemnew}</p>
-<p>Modeler</p>
+<p style={{borderBottom:'1px solid gray', paddingBottom:'10px'}}  className='merchantcell'>{itemnew}</p>
+<p className='merchanthead'>Modeler</p>
 {
   <div style={{borderBottom:'1px solid gray', paddingBottom:'10px'}} >
 
     {
       modeluploaddata && modeluploaddata.map(item=>(
         item.product_Id === itemnew ?
-        <p>{item.modelername}</p> : <p></p>
+        <p className='merchantcell'>{item.modelername}</p> : <p></p>
       ))
     }
   </div>
 }
 
-<p>Verified Date</p>
+<p className='merchanthead'>Verified Date</p>
 {
    <div style={{borderBottom:'1px solid gray', paddingBottom:'10px'}} >
 
    {
      modeluploaddata && modeluploaddata.map(item=>(
        item.product_Id === itemnew ?
-       <p>{item.verifydate.split(' ').slice(0,4).join(' ')}</p> : <p></p>
+       <p className='merchantcell'>{item.verifydate.split(' ').slice(0,4).join(' ')}</p> : <p></p>
      ))
    }
  </div>
@@ -3280,9 +3414,9 @@ productsget && productsget.map(item=>(
 <div>
   
 <div style={{borderBottom:'1px solid gray', paddingBottom:'10px'}} >
-  <p>Update status</p>
+  <p className='merchanthead'>Update status</p>
 
-<select onChange={event=>setStatusValue(event.target.value)}  style={{paddingRight:'20px'}} >
+<select onChange={event=>setStatusValue(event.target.value)}  style={{paddingRight:'20px', marginRight:'10px'}} >
 <option></option>
 <option value='accepted' >Accepted</option>
 <option value='rejected'>Rejected</option>
@@ -3297,13 +3431,13 @@ productsget && productsget.map(item=>(
 {
 <div>
 
-  <p>Status</p>
+  <p className='merchanthead'>Status</p>
 
   {
     modeluploaddata &&
     modeluploaddata.map(item=>(
       item.product_Id === itemnew ?
-      <p>{item.statusmod}</p>:<p></p>
+      <p className='merchantcell'>{item.statusmod}</p>:<p></p>
     ))
   }
 </div>
@@ -3317,6 +3451,9 @@ productsget && productsget.map(item=>(
 
   
 </div>
+
+
+
 
 
   </div>
@@ -3437,7 +3574,7 @@ productsget && productsget.map(item=>(
                    {
                     singlemerchant && singlemerchant.map(item=>(
                       item.map(it=>(
-                        <div style={{border:'1px solid red',margin:'10px', height:'150px', overflow:'scroll'}} >
+                        <div style={{margin:'10px', height:'150px', overflow:'scroll'}} >
                           {it.imageurl && it.imageurl.map(itemnew=>(
                             <p><a  style={{fontSize:'10px'}} href={itemnew}>{itemnew}</a></p>
                           ))}

@@ -427,7 +427,7 @@ if (filename){
       }
       const sendfunctiongltf=(val,ind)=>{
     
-  console.log(ind)
+
          
        if(filename){
 
@@ -991,7 +991,7 @@ imgresnew && imgresnew.map(item=>(
 
 
   
-<div style={{border:'1px solid blue',height:'120px', marginBottom:'40px', margin:'10px', overflowY:'scroll'}}>
+<div style={{height:'120px', marginBottom:'40px', margin:'10px', overflowY:'scroll'}}>
  
 
   
@@ -1294,7 +1294,7 @@ if(roleuse === 'admin'){
 
                      
                         
-                      <div style={{border:'1px solid blue',height:'120px', marginBottom:'40px', margin:'10px', overflowY:'scroll'}}>
+                      <div style={{height:'120px', marginBottom:'40px', margin:'10px', overflowY:'scroll'}}>
                        
 
                         
@@ -1544,7 +1544,7 @@ imgresnew && imgresnew.map(item=>(
 
 
   
-<div style={{border:'1px solid blue',height:'120px', marginBottom:'40px', margin:'10px', overflowY:'scroll'}}>
+<div style={{height:'120px', marginBottom:'40px', margin:'10px', overflowY:'scroll'}}>
  
 
   
